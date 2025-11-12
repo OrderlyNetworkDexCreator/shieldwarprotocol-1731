@@ -13,7 +13,7 @@ window.__RUNTIME_CONFIG__ = {
   "VITE_ENABLE_ABSTRACT_WALLET": "true",
   "VITE_DISABLE_EVM_WALLETS": "false",
   "VITE_DISABLE_SOLANA_WALLETS": "false",
-  "VITE_WALLETCONNECT_PROJECT_ID": "",
+  "VITE_WALLETCONNECT_PROJECT_ID": "fa58bc321e8a9e6326d21df561e3d13e",
   "VITE_APP_NAME": "Shield.warprotocol",
   "VITE_APP_DESCRIPTION": "Shield dex is war protocol A war against crypto ponzi schme.",
   "VITE_HAS_PRIMARY_LOGO": "true",
