@@ -30,6 +30,12 @@ export default function WooFiWidget() {
       onConnectWallet={handleConnectWallet}
       onChainSwitch={handleChainSwitch}
       brokerAddress={brokerAddress}
+      config={{
+        enableLinea: false,
+        enableMerlin: false,
+        enableHyperevm: false,
+        enableZksync: false,
+      }}
     />
   );
 }
