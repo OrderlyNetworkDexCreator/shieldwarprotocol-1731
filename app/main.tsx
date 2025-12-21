@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { withBasePath } from './utils/base-path';
 import { getRuntimeConfig } from './utils/runtime-config';
 
@@ -79,6 +80,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <ErrorBoundary />,
     children: [
       { index: true, element: <IndexPage /> },
       {

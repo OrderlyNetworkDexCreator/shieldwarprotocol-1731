@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
 import { getRuntimeConfigArray } from "@/utils/runtime-config";
+import ipRangeCheck from "ip-range-check";
 
-function formatRegion(region: string): string {
-  return region?.replace(/\s+/g, "").toLowerCase();
+function isIpWhitelisted(ip: string, whitelistPatterns: string[]): boolean {
+  return whitelistPatterns.some((pattern) => {
+    try {
+      return ipRangeCheck(ip, pattern);
+    } catch (error) {
+      console.warn(`Invalid IP pattern: ${pattern}`, error);
+      return ip === pattern;
+    }
+  });
 }
 
 export const useIpRestriction = () => {
@@ -24,13 +32,17 @@ export const useIpRestriction = () => {
         const whitelistIps =
           getRuntimeConfigArray("VITE_WHITELISTED_IPS") || [];
 
-        if (whitelistIps.includes(userIp)) {
+        if (isIpWhitelisted(userIp, whitelistIps)) {
           setIsRestricted(false);
           return;
         }
-        if (restrictedRegions.includes(formatRegion(userRegion))) {
+        if (restrictedRegions.includes(userRegion)) {
           setIsRestricted(true);
         }
+      })
+      .catch((error) => {
+        console.error("Failed to fetch IP info:", error);
+        setIsRestricted(false);
       });
   }, []);
 

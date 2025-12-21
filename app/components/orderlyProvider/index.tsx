@@ -6,10 +6,10 @@ import { LocaleProvider, LocaleCode, LocaleEnum, defaultLanguages } from "@order
 import { withBasePath } from "@/utils/base-path";
 import { getSEOConfig, getUserLanguage } from "@/utils/seo";
 import { getRuntimeConfigBoolean, getRuntimeConfigArray, getRuntimeConfig } from "@/utils/runtime-config";
+import { createSymbolDataAdapter } from "@/utils/symbol-filter";
 import { DemoGraduationChecker } from "@/components/DemoGraduationChecker";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
-import ServiceDisclaimerDialog from "./ServiceRestrictionsDialog";
-// import { useIpRestriction } from "@/hooks/useIpRestriction";
+import ServiceDisclaimerDialog from "./ServiceDisclaimerDialog";
 
 const NETWORK_ID_KEY = "orderly_network_id";
 
@@ -72,7 +72,6 @@ const WalletConnector = lazy(() => import("@/components/orderlyProvider/walletCo
 const OrderlyProvider = (props: { children: ReactNode }) => {
 	const config = useOrderlyConfig();
 	const networkId = getNetworkId();
-  // const { isRestricted } = useIpRestriction();
 	
 	const privyAppId = getRuntimeConfig('VITE_PRIVY_APP_ID');
 	const usePrivy = !!privyAppId;
@@ -104,6 +103,8 @@ const OrderlyProvider = (props: { children: ReactNode }) => {
 	} : undefined;
 
 	const defaultChain = parseDefaultChain(getRuntimeConfig('VITE_DEFAULT_CHAIN'));
+
+	const dataAdapter = createSymbolDataAdapter();
 
 	const onChainChanged = useCallback(
 		(_chainId: number, {isTestnet}: {isTestnet: boolean}) => {
@@ -155,17 +156,6 @@ const OrderlyProvider = (props: { children: ReactNode }) => {
 		availableLanguages.includes(lang.localCode)
 	);
 
-  // if (isRestricted) {
-  //   return (
-  //     <>
-  //       <ServiceDisclaimerDialog isRestricted={isRestricted} />
-  //       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#101014', color: '#fff', fontSize: '2rem', fontWeight: 'bold' }}>
-  //         Service not available in your region.
-  //       </div>
-  //     </>
-  //   );
-  // }
-
 	const appProvider = (
 		<OrderlyAppProvider
 			brokerId={getRuntimeConfig('VITE_ORDERLY_BROKER_ID')}
@@ -176,9 +166,13 @@ const OrderlyProvider = (props: { children: ReactNode }) => {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			{...(chainFilter && { chainFilter } as any)}
 			defaultChain={defaultChain}
+			dataAdapter={dataAdapter}
+			restrictedInfo={{
+				customRestrictedRegions: getRuntimeConfigArray('VITE_RESTRICTED_REGIONS'),
+			}}
 		>
 			<DemoGraduationChecker />
-      <ServiceDisclaimerDialog isRestricted={false} />
+			<ServiceDisclaimerDialog />
 			{props.children}
 		</OrderlyAppProvider>
 	);
