@@ -4,7 +4,6 @@ import { getPageMeta } from "@/utils/seo";
 import { getRuntimeConfig, getRuntimeConfigBoolean } from "@/utils/runtime-config";
 import { renderSEOTags } from "@/utils/seo-tags";
 import { useNavigate } from "react-router-dom";
-import { withBasePath } from "@/utils/base-path";
 
 export default function MarketsIndex() {
   const pageMeta = getPageMeta();
@@ -24,7 +23,7 @@ export default function MarketsIndex() {
             getRuntimeConfig("VITE_ORDERLY_BROKER_NAME"),
         }}
         onSymbolChange={(symbol) => {
-          navigate(withBasePath(`/perp/${symbol.symbol}`));
+          navigate(`/perp/${symbol.symbol}`);
         }}
       />
     </>
