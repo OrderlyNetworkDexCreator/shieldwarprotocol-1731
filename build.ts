@@ -13,6 +13,7 @@ const STATIC_ROUTES = [
   "/portfolio/setting",
   "/leaderboard",
   "/swap",
+  "/points",
 ];
 
 interface SymbolInfo {

@@ -33,6 +33,9 @@ const VaultsLayout = lazy(() => import('./pages/vaults/Layout'));
 const VaultsIndex = lazy(() => import('./pages/vaults/Index'));
 const SwapLayout = lazy(() => import('./pages/swap/Layout'));
 const SwapIndex = lazy(() => import('./pages/swap/Index'));
+const PointsLayout = lazy(() => import('./pages/points/Layout'));
+const PointsIndex = lazy(() => import('./pages/points/Index'));
+
 
 async function loadRuntimeConfig() {
   return new Promise<void>((resolve) => {
@@ -139,6 +142,13 @@ const router = createBrowserRouter([
         element: <SwapLayout />,
         children: [
           { index: true, element: <SwapIndex /> },
+        ],
+      },
+      {
+        path: 'points',
+        element: <PointsLayout />,
+        children: [
+          { index: true, element: <PointsIndex /> },
         ],
       },
     ],
