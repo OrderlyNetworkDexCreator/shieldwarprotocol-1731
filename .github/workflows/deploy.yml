@@ -80,21 +80,59 @@ jobs:
           echo "sync_happened=false" >> $GITHUB_OUTPUT
           git remote add upstream https://github.com/OrderlyNetworkDexCreator/dex-creator-template.git || true
           git fetch upstream
-          
+
+          # dex-creator API replaces vars.VITE_DEPLOYMENT_ENV (see github.ts) with a literal when committing; forks often have no var set.
+          DEPLOYMENT_ENV="mainnet"
+
+          if [ "$DEPLOYMENT_ENV" = "mainnet" ]; then
+            UPSTREAM_BRANCH="main"
+          elif [ "$DEPLOYMENT_ENV" = "staging" ]; then
+            if git rev-parse --verify upstream/staging >/dev/null 2>&1; then
+              UPSTREAM_BRANCH="staging"
+            else
+              UPSTREAM_BRANCH="main"
+            fi
+          elif [ "$DEPLOYMENT_ENV" = "qa" ]; then
+            if git rev-parse --verify upstream/qa >/dev/null 2>&1; then
+              UPSTREAM_BRANCH="qa"
+            elif git rev-parse --verify upstream/staging >/dev/null 2>&1; then
+              UPSTREAM_BRANCH="staging"
+            else
+              UPSTREAM_BRANCH="main"
+            fi
+          else
+            UPSTREAM_BRANCH="main"
+          fi
+
+          # Non-mainnet template lines (qa/staging): on merge conflicts, prefer upstream hunks.
+          # mainnet and fallback-to-main merges stay default (manual resolution if conflict).
+          MERGE_EXTRA=""
+          if [ "$UPSTREAM_BRANCH" = "qa" ] || [ "$UPSTREAM_BRANCH" = "staging" ]; then
+            MERGE_EXTRA="-X theirs"
+            echo "Merging upstream/$UPSTREAM_BRANCH with -X theirs (conflicted hunks favor upstream)"
+          fi
+
           BEFORE_MERGE=$(git rev-parse HEAD)
-          
-          if git merge upstream/main --no-edit; then
+          UPSTREAM_TIP=$(git rev-parse "upstream/$UPSTREAM_BRANCH")
+
+          echo "=== Upstream sync ==="
+          echo "DEPLOYMENT_ENV=$DEPLOYMENT_ENV  →  merge target: upstream/$UPSTREAM_BRANCH"
+          echo "Local HEAD (before merge): $BEFORE_MERGE"
+          echo "Upstream tip:              $UPSTREAM_TIP"
+
+          if git merge "upstream/$UPSTREAM_BRANCH" --no-edit $MERGE_EXTRA; then
             AFTER_MERGE=$(git rev-parse HEAD)
-            
+
             if [ "$BEFORE_MERGE" != "$AFTER_MERGE" ]; then
-              echo "Successfully merged upstream changes"
+              echo "RESULT: Merge succeeded — new commits integrated (HEAD $BEFORE_MERGE → $AFTER_MERGE). Pushing to origin."
               echo "sync_happened=true" >> $GITHUB_OUTPUT
               git push origin main
             else
-              echo "Already up to date with upstream"
+              echo "RESULT: Merge succeeded — nothing to integrate (local main already contains all commits from upstream/$UPSTREAM_BRANCH)."
+              echo "         The 'Already up to date.' line above is from git merge; it means no upstream changes were missing."
             fi
           else
-            echo "Merge failed"
+            echo "RESULT: Merge failed — upstream could not be merged cleanly. Aborting merge."
             git merge --abort 2>/dev/null || true
           fi
 

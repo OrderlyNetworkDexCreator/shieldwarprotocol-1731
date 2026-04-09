@@ -18,7 +18,7 @@ window.__RUNTIME_CONFIG__ = {
   "VITE_APP_DESCRIPTION": "Shield DEX is a privacy-first decentralized exchange powered by War Protocol, built to fight crypto scams and ponzi projects while enabling secure, anonymous DeFi trading.",
   "VITE_HAS_PRIMARY_LOGO": "true",
   "VITE_HAS_SECONDARY_LOGO": "true",
-  "VITE_ENABLED_MENUS": "Markets,Trading,Swap,Vaults,Portfolio,Rewards,Leaderboard",
+  "VITE_ENABLED_MENUS": "Markets,Trading,Swap,Vaults,Portfolio,Rewards,Leaderboard,Campaigns",
   "VITE_CUSTOM_MENUS": "1000 games, https://app.aark.digital/1000x-crypto-futures",
   "VITE_ENABLE_SERVICE_DISCLAIMER_DIALOG": "true",
   "VITE_ENABLE_CAMPAIGNS": "false",
