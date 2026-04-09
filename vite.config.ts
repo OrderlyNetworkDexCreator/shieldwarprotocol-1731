@@ -43,6 +43,10 @@ export default defineConfig(() => {
   const basePath = process.env.PUBLIC_PATH || "/";
 
   return {
+    server: {
+      open: true,
+      host: true,
+    },
     base: basePath,
     plugins: [
       react(),

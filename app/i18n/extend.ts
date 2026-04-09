@@ -1,4 +1,4 @@
-{
+export const extendMessages = {
   "extend.tradingRewards.description": "Trade with Orderly to earn ORDER",
   "extend.affiliate.tag": "40% Rebate",
   "extend.affiliate.description": "Earn more as a Orderly affiliate",
@@ -7,5 +7,7 @@
   "extend.swap": "Swap",
   "extend.tradingPoints.points": "Points",
   "extend.tradingLeaderboard.leaderboard": "Leaderboard",
-  "extend.tradingLeaderboard.campaigns": "Campaigns"
-}
+  "extend.tradingLeaderboard.campaigns": "Campaigns",
+};
+
+export type ExtendLocaleMessages = typeof extendMessages;
