@@ -22,7 +22,7 @@ window.__RUNTIME_CONFIG__ = {
   "VITE_CUSTOM_MENUS": "",
   "VITE_ENABLE_SERVICE_DISCLAIMER_DIALOG": "false",
   "VITE_ENABLE_CAMPAIGNS": "true",
-  "VITE_TELEGRAM_URL": "",
+  "VITE_TELEGRAM_URL": "https://t.me/+jlFKq72fAl4yYjhl",
   "VITE_DISCORD_URL": "",
   "VITE_TWITTER_URL": "",
   "VITE_SEO_SITE_NAME": "Shieldex – Decentralized Perpetual Exchange",
