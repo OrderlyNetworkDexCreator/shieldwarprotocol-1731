@@ -18,7 +18,7 @@ window.__RUNTIME_CONFIG__ = {
   "VITE_APP_DESCRIPTION": "Shieldex is a next-generation decentralized perpetual exchange enabling permissionless trading, market creation, liquidity incentives, and community-driven growth. Trade perpetual markets, earn rewards, and access advanced on-chain financial infrastructure.",
   "VITE_HAS_PRIMARY_LOGO": "true",
   "VITE_HAS_SECONDARY_LOGO": "true",
-  "VITE_ENABLED_MENUS": "Markets,Trading,Swap,Vaults,Portfolio,Leaderboard,Campaigns,Points,Rewards",
+  "VITE_ENABLED_MENUS": "Markets,Trading,Swap,Vaults,Portfolio,Leaderboard,Points,Rewards",
   "VITE_CUSTOM_MENUS": "starchild, https://iamstarchild.com/?ref=QMFWMMR8",
   "VITE_ENABLE_SERVICE_DISCLAIMER_DIALOG": "false",
   "VITE_ENABLE_CAMPAIGNS": "true",
